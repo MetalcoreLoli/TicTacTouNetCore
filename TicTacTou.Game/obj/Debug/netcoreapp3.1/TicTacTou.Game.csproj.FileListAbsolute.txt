@@ -1,0 +1,11 @@
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game.deps.json
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game.runtimeconfig.json
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game.runtimeconfig.dev.json
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game.dll
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/bin/Debug/netcoreapp3.1/TicTacTou.Game.pdb
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/obj/Debug/netcoreapp3.1/TicTacTou.Game.csprojAssemblyReference.cache
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/obj/Debug/netcoreapp3.1/TicTacTou.Game.AssemblyInfoInputs.cache
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/obj/Debug/netcoreapp3.1/TicTacTou.Game.AssemblyInfo.cs
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/obj/Debug/netcoreapp3.1/TicTacTou.Game.dll
+/home/daniel/Documents/Projects/TicTacTou/TicTacTou.Game/obj/Debug/netcoreapp3.1/TicTacTou.Game.pdb
