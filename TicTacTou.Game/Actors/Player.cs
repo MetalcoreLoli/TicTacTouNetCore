@@ -14,5 +14,9 @@ namespace TicTacTou.Game.Actors
             : base (symbol, position)
         {
         }
+
+        public Player(char symbol, Vector position, ConsoleColor color, ConsoleColor backColor)
+            : base (symbol, position, color, backColor)
+        {}
     }
 }

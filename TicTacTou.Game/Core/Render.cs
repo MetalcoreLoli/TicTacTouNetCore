@@ -7,7 +7,7 @@ namespace TicTacTou.Game.Core
     ///<summary>
     /// Класс отвечающий за отрисовку
     ///</summary>
-    internal static class  Render
+    internal static class Render
     {
         ///<summary>
         /// Отсрисовка с смещением
@@ -17,11 +17,14 @@ namespace TicTacTou.Game.Core
             Console.CursorVisible = false;
             Int32 left = Console.CursorLeft;
             Int32 top = Console.CursorTop;
+
             Console.SetCursorPosition(obj.Position.X + xOff, obj.Position.Y + yOff);
+            
             Console.ForegroundColor = obj.Color;
             Console.BackgroundColor = obj.BackColor;
             Console.Write(obj.Symbol);
             Console.ResetColor();
+            
             Console.SetCursorPosition(left, top);
             Console.CursorVisible = false;
         }

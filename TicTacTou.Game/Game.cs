@@ -50,7 +50,6 @@ namespace TicTacTou.Game
         ///</summary>
         private Map map;
 
-
         private bool IsNotEnd = true;
         #endregion
 
@@ -68,7 +67,7 @@ namespace TicTacTou.Game
         #region Public methods
 
         ///<summary>
-        /// Метод, который зарпускает игру
+        /// Метод, который запускает игру
         ///</summary>
         public void Start()
         {
@@ -106,7 +105,7 @@ namespace TicTacTou.Game
         }
 
         ///<summary>
-        /// Метод, который содержит логику, которая выполняется на
+        /// Метод, содержит логику, которая выполняется на
         /// каждой итерации цикла
         ///</summary>
         public void Update()
@@ -122,19 +121,28 @@ namespace TicTacTou.Game
         }
         #endregion
 
-        #region Private Methods
+        #region Private Und Internal Methods
 
+        ///<summary>
+        /// Метод, который сообщает о ничье
+        ///</summary>
         internal void ShowDrawMessage()
         {
-        
             Int32 left = Console.CursorLeft;
             Int32 top = Console.CursorTop;
+
             Console.SetCursorPosition(0, mapHeight);
+
             Console.WriteLine(new string ('-', mapWidth));    
             Console.WriteLine("Draw" + new string (' ', 30));
             Console.WriteLine(new string ('-', mapWidth));    
+
             Console.SetCursorPosition(left, top);
         }
+
+        ///<summary>
+        ///Метод, который создает игрока
+        ///</summary>
         internal Player CreatePlayer()
         {
             var builder = new ActorBuilder<Player>();
@@ -145,6 +153,10 @@ namespace TicTacTou.Game
             return builder.Get();
         }
 
+        ///<summary>
+        /// Метод, который содержит логику реализующую ход игрока 
+        ///</summary>
+        ///<param name="actor">Игрок</param>
         internal bool PlayersTurn(Actor actor)
         {
             Int32 left = Console.CursorLeft;
@@ -163,6 +175,10 @@ namespace TicTacTou.Game
         }
 
 
+        ///<summary>
+        /// Метод, проверки на победу игрока:w
+        ///</summary>
+        ///<param name="actor">Игрок</param>
         internal bool CheckPlayersWin(Actor actor)
         {
             Func <Cell, bool> predicate = (Cell cell) => cell.Symbol.Equals(actor.Symbol);
@@ -208,11 +224,14 @@ namespace TicTacTou.Game
                     .GetCellBy(cell => cell.Position.X + cell.Position.Y == map.Width - 1 && cell.Position.X % 2 == 0)
                     .All(predicate);
 
-            return rowFirst || rowSecond || rowThird ||
-                    columnFirst || columnSecond || columnThird
-                    || mainDiagonal || falseDiagonal;
+            return  rowFirst || rowSecond || rowThird ||
+                    columnFirst || columnSecond || columnThird || 
+                    mainDiagonal || falseDiagonal;
         }
-
+        
+        ///<summary>
+        /// Метод, проверки на ничью
+        ///</summary>
         internal bool IsDraw()
         {
             List<Cell> cells = new List<Cell>();
@@ -221,16 +240,21 @@ namespace TicTacTou.Game
             return cells.All(cell => cell.Symbol != ' ');
         }
 
-
+        ///<summary>
+        ///Метод, выводит сообщение о победе игрока
+        ///</summary>
+        ///<param name="winnder">Победитель</param>
         internal void ShowWinnerMessage(Actor winner)
         {
             Int32 left = Console.CursorLeft;
             Int32 top = Console.CursorTop;
 
             Console.SetCursorPosition(0, mapHeight);
+
             Console.WriteLine(new string ('-', mapWidth));    
             Console.WriteLine($"{winner.Name} is winner" + new string(' ', 30));
             Console.WriteLine(new string ('-', mapWidth));    
+
             Console.SetCursorPosition(left, top);
         }
 
@@ -244,8 +268,6 @@ namespace TicTacTou.Game
             playerOne.Symbol = '0';
             playerOne.Color = ConsoleColor.DarkBlue;
         }
-
-
         #endregion
     }
 }
