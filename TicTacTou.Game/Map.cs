@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TicTacTou.Game.Core;
 using TicTacTou.Game.Enums;
 using TicTacTou.Game.Actors;
@@ -64,7 +65,17 @@ namespace TicTacTou.Game
             }
             else 
                 return false;
+        } 
+
+        internal Cell[] GetCellBy(Func<Cell, bool> predicate)
+        {
+            List<Cell> cells= new List<Cell>();
+            foreach (var cell in Board) 
+                if (predicate(cell)) 
+                    cells.Add(cell);
+            return cells.ToArray();
         }
+
 
         ///<summary>
         /// Метод отрисовывает карту

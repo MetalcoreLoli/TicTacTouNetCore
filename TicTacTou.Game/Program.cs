@@ -10,6 +10,7 @@ namespace TicTacTou.Game
         {
             Console.Clear();  
             new Game().Start();
+            Console.ReadKey();
         }
     }
 }

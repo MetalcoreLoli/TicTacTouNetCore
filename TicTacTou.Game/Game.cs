@@ -1,17 +1,19 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using TicTacTou.Game.Core;
 using TicTacTou.Game.Enums;
 using TicTacTou.Game.Actors;
 using TicTacTou.Game.Builders;
 
-   
+
 
 namespace TicTacTou.Game
 {
     ///<summary>
     /// Класс содержит основную логику игры
     ///</summary>
-    internal class Game 
+    internal class Game
     {
         #region Private Members
 
@@ -25,7 +27,7 @@ namespace TicTacTou.Game
         /// Поле для хранение первого игрока 
         ///</summary>
         private Actor player;
-        
+
         ///<summary>
         /// Поле для хранение второго игрока 
         ///</summary>
@@ -36,7 +38,7 @@ namespace TicTacTou.Game
         /// Поле для хранение высоты карты 
         ///</summary>
         private Int32 mapHeight = 5;
-        
+
         ///<summary>
         /// Поле для хранение ширины карты 
         ///</summary>
@@ -47,21 +49,24 @@ namespace TicTacTou.Game
         /// Поле для хранение карты 
         ///</summary>
         private Map map;
+
+
+        private bool IsNotEnd = true;
         #endregion
 
         #region Public Propeties 
-        
+
         #endregion
-        
+
         #region Constructors
         public Game()
         {
             Initialization();
         }
         #endregion
-        
+
         #region Public methods
-        
+
         ///<summary>
         /// Метод, который зарпускает игру
         ///</summary>
@@ -70,23 +75,40 @@ namespace TicTacTou.Game
 
             Console.Clear();
             Draw();
-            while (true)
+            while (IsNotEnd)
             {
-                Update();
+                if (PlayersTurn(player))
+                {
+                    ShowWinnerMessage(player);
+                    break;
+                }
+                Draw();
+                if (IsDraw())
+                {
+                    ShowDrawMessage();
+                    break;
+                }
+                if (PlayersTurn(playerOne))
+                {
+                    ShowWinnerMessage(playerOne);
+                    break;
+                }
+                Draw();
+                if (IsDraw())
+                {
+                    ShowDrawMessage();
+                    break;
+                }
                 //Console.Clear();
             }
         }
-        
+
         ///<summary>
         /// Метод, который содержит логику, которая выполняется на
         /// каждой итерации цикла
         ///</summary>
         public void Update()
         {
-            PlayersTurn(player); 
-            Draw();
-            PlayersTurn(playerOne); 
-            Draw();
         }
 
         ///<summary>
@@ -94,12 +116,23 @@ namespace TicTacTou.Game
         ///</summary>
         public void Draw()
         {
-            map.Draw(); 
+            map.Draw();
         }
         #endregion
 
         #region Private Methods
+
+        internal void ShowDrawMessage()
+        {
         
+            Int32 left = Console.CursorLeft;
+            Int32 top = Console.CursorTop;
+            Console.SetCursorPosition(0, mapHeight);
+            Console.WriteLine(new string ('-', mapWidth));    
+            Console.WriteLine("Draw" + new string (' ', 30));
+            Console.WriteLine(new string ('-', mapWidth));    
+            Console.SetCursorPosition(left, top);
+        }
         internal Player CreatePlayer()
         {
             var builder = new ActorBuilder<Player>();
@@ -109,8 +142,8 @@ namespace TicTacTou.Game
             builder.SetColor(ConsoleColor.DarkRed);
             return builder.Get();
         }
-        
-        internal void PlayersTurn(Actor actor)
+
+        internal bool PlayersTurn(Actor actor)
         {
             Int32 left = Console.CursorLeft;
             Int32 top = Console.CursorTop;
@@ -119,20 +152,80 @@ namespace TicTacTou.Game
             while (isCanBePlaced)
             {
                 Console.WriteLine($"Hey, {actor.Name} enter position(example: 1): ");
-                PositionOnBoard position 
+                PositionOnBoard position
                     = (PositionOnBoard)Int32.Parse(Console.ReadLine());
                 isCanBePlaced = !map.SetActorSymbolToBoard(actor, position);
             }
             Console.SetCursorPosition(left, top);
+            return CheckPlayersWin(actor);
         }
-        
+
+
+        internal bool CheckPlayersWin(Actor actor)
+        {
+            bool rowFirst
+                = map
+                    .GetCellBy(cell => cell.Position.X.Equals(0) && cell.Position.Y % 2 == 0)
+                    .ToList()
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+            bool rowSecond
+                = map
+                    .GetCellBy(cell => cell.Position.X.Equals(2) && cell.Position.Y % 2 == 0)
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+            bool rowThird
+                = map
+                    .GetCellBy(cell => cell.Position.X.Equals(4) && cell.Position.Y % 2 == 0)
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+
+            bool columnFirst
+                = map
+                    .GetCellBy(cell => cell.Position.Y.Equals(0) && cell.Position.X % 2 == 0)
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+            bool columnSecond
+                = map
+                    .GetCellBy(cell => cell.Position.Y.Equals(2) && cell.Position.X % 2 == 0)
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+            bool columnThird
+                = map
+                    .GetCellBy(cell => cell.Position.Y.Equals(4) && cell.Position.X % 2 == 0)
+                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+
+            return rowFirst || rowSecond || rowThird ||
+                    columnFirst || columnSecond || columnThird;
+        }
+
+        internal bool IsDraw()
+        {
+            List<Cell> cells = new List<Cell>();
+            for(int i = 0; i < map.Width * map.Height; i += 2)
+                cells.Add(map.Board[i]);
+            return cells.All(cell => cell.Symbol != ' ');
+        }
+
+
+        internal void ShowWinnerMessage(Actor winner)
+        {
+            Int32 left = Console.CursorLeft;
+            Int32 top = Console.CursorTop;
+
+            Console.SetCursorPosition(0, mapHeight);
+            Console.WriteLine(new string ('-', mapWidth));    
+            Console.WriteLine($"{winner.Name} is winner" + new string(' ', 30));
+            Console.WriteLine(new string ('-', mapWidth));    
+            Console.SetCursorPosition(left, top);
+        }
 
         private void Initialization()
         {
             map = new Map(mapWidth, mapHeight);
 
-            player      = CreatePlayer();
-            playerOne   = CreatePlayer();
+            player = CreatePlayer();
+            playerOne = CreatePlayer();
 
             playerOne.Symbol = '0';
             playerOne.Color = ConsoleColor.DarkBlue;
