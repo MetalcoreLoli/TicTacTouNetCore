@@ -1,5 +1,6 @@
 using System;
 using TicTacTou.Game.Core;
+using TicTacTou.Game.Enums;
 using TicTacTou.Game.Actors;
 using TicTacTou.Game.Builders;
 
@@ -114,12 +115,18 @@ namespace TicTacTou.Game
             Int32 left = Console.CursorLeft;
             Int32 top = Console.CursorTop;
             Console.SetCursorPosition(0, mapHeight);
-            Console.WriteLine($"Hey, {actor.Name} enter position(example: 1 2): ");
-            string position = Console.ReadLine();
-            map.SetActorSymbolToBoard(actor, Vector.FromString(position)); 
+            bool isCanBePlaced = true;
+            while (isCanBePlaced)
+            {
+                Console.WriteLine($"Hey, {actor.Name} enter position(example: 1): ");
+                PositionOnBoard position 
+                    = (PositionOnBoard)Int32.Parse(Console.ReadLine());
+                isCanBePlaced = !map.SetActorSymbolToBoard(actor, position);
+            }
             Console.SetCursorPosition(left, top);
         }
-         
+        
+
         private void Initialization()
         {
             map = new Map(mapWidth, mapHeight);
@@ -130,6 +137,8 @@ namespace TicTacTou.Game
             playerOne.Symbol = '0';
             playerOne.Color = ConsoleColor.DarkBlue;
         }
+
+
         #endregion
     }
 }

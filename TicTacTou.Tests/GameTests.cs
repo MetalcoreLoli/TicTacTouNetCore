@@ -24,6 +24,6 @@ namespace TicTacTou.Tests
             Player playerOne = game.CreatePlayer();
             Assert.AreNotSame(player, playerOne);
         }
-
+        
     }
 }

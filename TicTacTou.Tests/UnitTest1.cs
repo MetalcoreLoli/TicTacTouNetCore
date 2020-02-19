@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using TicTacTou.Game.Core;
+using TicTacTou.Game.Enums;
 
 namespace TicTacTou.Tests
 {
@@ -37,6 +38,16 @@ namespace TicTacTou.Tests
             Vector answer = new Vector(1, 2);
 
             Assert.AreEqual(result, answer);
+        }
+
+
+        [Test]
+        public void VectorFromEnum()
+        {
+            Vector result = Vector.FromEnum(PositionOnBoard.One);
+            Vector answer = new Vector(0, 0);
+
+            Assert.AreEqual(answer, result);
         }
     }
 }

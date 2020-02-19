@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using TicTacTou.Game.Enums;
+
 namespace TicTacTou.Game.Core
 {
     ///<summary>
@@ -32,6 +34,44 @@ namespace TicTacTou.Game.Core
             Int32 x = Int32.Parse(coord[0]);
             Int32 y = Int32.Parse(coord[1]);
             return new Vector(x, y);
+        }
+
+
+        public static Vector FromEnum(PositionOnBoard value)
+        {
+            switch (value)
+            {
+                case PositionOnBoard.One:
+                    return new Vector(0, 0);
+            
+                case PositionOnBoard.Two:
+                    return new Vector(2, 0);
+
+                case PositionOnBoard.Three:
+                    return new Vector(4, 0);
+
+                case PositionOnBoard.Four:
+                    return new Vector(0, 2);
+
+                case PositionOnBoard.Five:
+                    return new Vector(2, 2);
+
+                case PositionOnBoard.Six:
+                    return new Vector(4, 2);
+
+                case PositionOnBoard.Seven:
+                    return new Vector(0, 4);
+                
+                case PositionOnBoard.Eight:
+                    return new Vector(2, 4);
+                
+                case PositionOnBoard.Nine:
+                    return new Vector(4, 4);
+                
+                default: 
+                    return new Vector(0, 0);
+
+            }
         }
 
         #region Overrided Operators

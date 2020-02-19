@@ -1,5 +1,6 @@
 using System;
 using TicTacTou.Game.Core;
+using TicTacTou.Game.Enums;
 using TicTacTou.Game.Actors;
 
 namespace TicTacTou.Game
@@ -52,13 +53,17 @@ namespace TicTacTou.Game
         ///<summary>
         /// Установка игрока символа в ячейку 
         ///</summary>
-        public void SetActorSymbolToBoard(Actor actor, Vector position)
+        public bool SetActorSymbolToBoard(Actor actor, PositionOnBoard positionOnBoard)
         {
-            if (position.X % 2 != 0)
-                position.X++;
-            if (position.Y % 2 != 0)
-                position.Y++;
-            Board[position.X + Width * position.Y].Symbol = actor.Symbol; 
+            Vector position = Vector.FromEnum(positionOnBoard); 
+            Cell boardCell = Board[position.X + Width * position.Y];
+            if (boardCell.Symbol == ' ')
+            {
+                boardCell.Symbol = actor.Symbol; 
+                return true; 
+            }
+            else 
+                return false;
         }
 
         ///<summary>
