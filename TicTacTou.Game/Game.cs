@@ -79,6 +79,7 @@ namespace TicTacTou.Game
             {
                 if (PlayersTurn(player))
                 {
+                    Draw();
                     ShowWinnerMessage(player);
                     break;
                 }
@@ -90,6 +91,7 @@ namespace TicTacTou.Game
                 }
                 if (PlayersTurn(playerOne))
                 {
+                    Draw();
                     ShowWinnerMessage(playerOne);
                     break;
                 }
@@ -195,8 +197,14 @@ namespace TicTacTou.Game
                     .GetCellBy(cell => cell.Position.Y.Equals(4) && cell.Position.X % 2 == 0)
                     .All(cell => cell.Symbol.Equals(actor.Symbol));
 
+            bool mainDiagonal = 
+                    map
+                        .GetCellBy(cell => (cell.Position.X.Equals(cell.Position.Y) && cell.Position.X % 2 == 0))
+                        .All(cell => cell.Symbol.Equals(actor.Symbol));
+
             return rowFirst || rowSecond || rowThird ||
-                    columnFirst || columnSecond || columnThird;
+                    columnFirst || columnSecond || columnThird
+                    || mainDiagonal;
         }
 
         internal bool IsDraw()
