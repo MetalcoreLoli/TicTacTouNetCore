@@ -165,46 +165,52 @@ namespace TicTacTou.Game
 
         internal bool CheckPlayersWin(Actor actor)
         {
+            Func <Cell, bool> predicate = (Cell cell) => cell.Symbol.Equals(actor.Symbol);
             bool rowFirst
                 = map
                     .GetCellBy(cell => cell.Position.X.Equals(0) && cell.Position.Y % 2 == 0)
                     .ToList()
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
             bool rowSecond
                 = map
                     .GetCellBy(cell => cell.Position.X.Equals(2) && cell.Position.Y % 2 == 0)
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
             bool rowThird
                 = map
                     .GetCellBy(cell => cell.Position.X.Equals(4) && cell.Position.Y % 2 == 0)
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
 
             bool columnFirst
                 = map
                     .GetCellBy(cell => cell.Position.Y.Equals(0) && cell.Position.X % 2 == 0)
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
             bool columnSecond
                 = map
                     .GetCellBy(cell => cell.Position.Y.Equals(2) && cell.Position.X % 2 == 0)
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
             bool columnThird
                 = map
                     .GetCellBy(cell => cell.Position.Y.Equals(4) && cell.Position.X % 2 == 0)
-                    .All(cell => cell.Symbol.Equals(actor.Symbol));
+                    .All(predicate);
 
             bool mainDiagonal = 
                     map
                         .GetCellBy(cell => (cell.Position.X.Equals(cell.Position.Y) && cell.Position.X % 2 == 0))
-                        .All(cell => cell.Symbol.Equals(actor.Symbol));
+                        .All(predicate);
+
+            bool falseDiagonal =
+                map
+                    .GetCellBy(cell => cell.Position.X + cell.Position.Y == map.Width - 1 && cell.Position.X % 2 == 0)
+                    .All(predicate);
 
             return rowFirst || rowSecond || rowThird ||
                     columnFirst || columnSecond || columnThird
-                    || mainDiagonal;
+                    || mainDiagonal || falseDiagonal;
         }
 
         internal bool IsDraw()
