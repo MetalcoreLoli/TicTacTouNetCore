@@ -60,6 +60,7 @@ namespace TicTacTou.Game
             Cell boardCell = Board[position.X + Width * position.Y];
             if (boardCell.Symbol == ' ')
             {
+                boardCell.Color = actor.Color;
                 boardCell.Symbol = actor.Symbol; 
                 return true; 
             }
