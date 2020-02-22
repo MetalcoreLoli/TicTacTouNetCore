@@ -182,51 +182,52 @@ namespace TicTacTou.Game
         internal bool CheckPlayersWin(Actor actor)
         {
             Func <Cell, bool> predicate = (Cell cell) => cell.Symbol.Equals(actor.Symbol);
+            Func <Cell, Vector> convertPosition = cell => cell.Position - map.Location;
             bool rowFirst
                 = map
-                    .GetCellBy(cell => cell.Position.X.Equals(0) && cell.Position.Y % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).X.Equals(0) && convertPosition(cell).Y % 2 == 0)
                     .ToList()
                     .All(predicate);
 
             bool rowSecond
                 = map
-                    .GetCellBy(cell => cell.Position.X.Equals(2) && cell.Position.Y % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).X.Equals(2) && convertPosition(cell).Y % 2 == 0)
                     .All(predicate);
 
             bool rowThird
                 = map
-                    .GetCellBy(cell => cell.Position.X.Equals(4) && cell.Position.Y % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).X.Equals(4) && convertPosition(cell).Y % 2 == 0)
                     .All(predicate);
 
 
             bool columnFirst
                 = map
-                    .GetCellBy(cell => cell.Position.Y.Equals(0) && cell.Position.X % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).Y.Equals(0) && convertPosition(cell).X % 2 == 0)
                     .All(predicate);
 
             bool columnSecond
                 = map
-                    .GetCellBy(cell => cell.Position.Y.Equals(2) && cell.Position.X % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).Y.Equals(2) && convertPosition(cell).X % 2 == 0)
                     .All(predicate);
 
             bool columnThird
                 = map
-                    .GetCellBy(cell => cell.Position.Y.Equals(4) && cell.Position.X % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).Y.Equals(4) && convertPosition(cell).X % 2 == 0)
                     .All(predicate);
-
             bool mainDiagonal = 
                     map
-                        .GetCellBy(cell => (cell.Position.X.Equals(cell.Position.Y) && cell.Position.X % 2 == 0))
+                        .GetCellBy(cell => (convertPosition(cell).X.Equals(convertPosition(cell).Y) 
+                                    && convertPosition(cell).X % 2 == 0))
                         .All(predicate);
 
             bool falseDiagonal =
                 map
-                    .GetCellBy(cell => cell.Position.X + cell.Position.Y == map.Width - 1 && cell.Position.X % 2 == 0)
+                    .GetCellBy(cell => convertPosition(cell).X + convertPosition(cell).Y == map.Width - 1 
+                            && convertPosition(cell).X % 2 == 0)
                     .All(predicate);
-
             return  rowFirst || rowSecond || rowThird ||
-                    columnFirst || columnSecond || columnThird || 
-                    mainDiagonal || falseDiagonal;
+                    columnFirst || columnSecond || columnThird
+                    /*|| mainDiagonal || falseDiagonal */;
         }
         
         ///<summary>
@@ -261,6 +262,7 @@ namespace TicTacTou.Game
         private void Initialization()
         {
             map = new Map(mapWidth, mapHeight);
+            map.Location = new Vector(1, 0);
 
             player = CreatePlayer();
             playerOne = CreatePlayer();

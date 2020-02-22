@@ -73,6 +73,5 @@ namespace TicTacTou.Tests
             player = builder.Get();
             Assert.AreEqual(player.BackColor, ConsoleColor.Yellow);
         }
-
     }
 }
